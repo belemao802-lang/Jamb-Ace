@@ -107,7 +107,7 @@
 ["Which word ends with the same consonant sound as 'bed'?","made","bet","bell","back"],
 ["Which word begins with the same consonant sound as 'river'?","road","laugh","wrote","jungle"],
 ["Which word begins with the same consonant sound as 'knight'?","name","kite","time","gate"],
-["Which word begins with the same consonant sound as 'hour'?","honest","house","who","hot"],
+["Which word also has a silent initial h like 'hour'?","honest","house","who","hot"],
 ["Which word begins with the same consonant sound as 'giant'?","giraffe","gate","get","goal"]
 ]);
  add("Oral English: Rhymes",[
