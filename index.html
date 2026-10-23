@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JAMB ACE</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+<style>
+:root{--navy:#0b2a5b;--green:#12a150;--gold:#e0a31a;--bg:#f5f7fa;--card:#fff;--tx:#23272f;--mu:#667085;--bd:#e3e7ee;--bad:#d92d20;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1420;--card:#16202f;--tx:#e8ecf3;--mu:#9aa6b8;--bd:#263246;--navy:#7aa2ff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1420;--card:#16202f;--tx:#e8ecf3;--mu:#9aa6b8;--bd:#263246;--navy:#7aa2ff;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:760px;margin:0 auto;padding:16px 16px 96px}
+h1,h2,h3{margin:0 0 8px;line-height:1.25;color:var(--navy)}h1{font-size:1.5rem}h2{font-size:1.15rem}h3{font-size:1rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:0 0 12px}
+.mu{color:var(--mu);font-size:.88rem}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.sp{justify-content:space-between}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button,select,input{font:inherit;color:inherit}
+.btn{min-height:44px;padding:8px 16px;border-radius:10px;border:1px solid var(--navy);background:transparent;color:var(--navy);font-weight:600;cursor:pointer}
+.btn.p{background:var(--navy);color:#fff}:root[data-theme="dark"] .btn.p{color:#0d1420}.btn.g{background:var(--green);border-color:var(--green);color:#fff}.btn.w{width:100%}.btn.s{min-height:36px;padding:4px 12px;font-size:.88rem}.btn.d{border-color:var(--bad);color:var(--bad)}
+.btn:focus-visible,.opt:focus-visible,.pal:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+label{display:block;font-weight:600;margin:12px 0 4px}input,select{width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--bd);border-radius:10px;background:var(--card)}
+.chk{display:flex;gap:8px;align-items:center;font-weight:500;margin:6px 0}.chk input{width:22px;min-height:22px}
+nav.bn{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--bd);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav.bn button{flex:1;min-height:56px;border:0;background:none;color:var(--mu);font-size:.75rem;cursor:pointer}nav.bn button b{display:block;font-size:1.3rem}nav.bn button.on{color:var(--green);font-weight:700}
+.logo{font-weight:800;font-size:1.3rem;color:var(--navy)}.logo i{color:var(--gold);font-style:normal}
+.bar{height:8px;border-radius:6px;background:var(--bd);overflow:hidden}.bar>div{height:100%;background:var(--green)}
+.opt{display:block;width:100%;text-align:left;min-height:48px;padding:10px 12px;margin:8px 0;border:2px solid var(--bd);border-radius:10px;background:var(--card);cursor:pointer}
+.opt.sel{border-color:var(--navy);background:rgba(11,42,91,.08)}.opt.ok{border-color:var(--green);background:rgba(18,161,80,.12)}.opt.no{border-color:var(--bad);background:rgba(217,45,32,.1)}
+.pal{width:40px;height:40px;border-radius:8px;border:1px solid var(--bd);background:var(--card);cursor:pointer;font-weight:600}.pal.a{background:var(--green);color:#fff;border-color:var(--green)}.pal.m{background:var(--gold);color:#222;border-color:var(--gold)}.pal.c{outline:3px solid var(--navy)}
+.tag{display:inline-block;padding:2px 8px;border-radius:20px;background:rgba(224,163,26,.2);font-size:.75rem;font-weight:600}
+.big{font-size:2rem;font-weight:800;color:var(--navy)}.note{border-left:4px solid var(--gold);padding:8px 12px;background:rgba(224,163,26,.1);border-radius:6px;font-size:.88rem;margin:10px 0}
+.top{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:4}
+.exp{border-left:4px solid var(--green);padding:6px 12px;margin:8px 0;background:rgba(18,161,80,.07);border-radius:6px;font-size:.92rem}
+@media(min-width:900px){#app{max-width:820px}}
+</style></head><body><div id="app"></div>
+<script>
+"use strict";
+/* ---------- CONFIG (update here when JAMB rules change; demo values NOT verified) ---------- */
+const CFG={perSubject:4,minutes:15,verified:false};
+const SUBJ=["English Language","Mathematics","Physics","Chemistry","Biology","Economics","Government","Literature in English"];
+/* ---------- QUESTION BANK (original sample questions; not official past questions) ---------- */
+const RAW=[
+["English Language","Lexis","e",["Synonym of ‘benevolent’: choose the closest meaning.",["Cruel","Kind","Lazy","Proud"],1,"Benevolent means well-meaning and kind. Tip: ‘bene’ means good (benefit, benefactor)."]],
+["English Language","Lexis","m",["Choose the antonym of ‘scarce’.",["Rare","Limited","Abundant","Costly"],2,"Scarce means in short supply; abundant means plentiful, so it is the opposite."]],
+["English Language","Grammar","m",["Neither of the boys ___ present at the assembly.",["were","are","was","have been"],2,"‘Neither’ is singular, so it takes a singular verb: ‘was’. Watch for ‘of the boys’ tricking you."]],
+["English Language","Oral English","m",["Which word is stressed on the SECOND syllable?",["garden","begin","table","happy"],1,"be-GIN is stressed on the second syllable. The others carry first-syllable stress."]],
+["Mathematics","Algebra","e",["Solve 2x + 5 = 17.",["5","6","7","8"],1,"Formula: isolate x. 2x = 17 − 5 = 12, so x = 6. Common mistake: dividing 17 by 2 before subtracting 5."]],
+["Mathematics","Logarithms","m",["Evaluate log₁₀ 1000.",["2","3","10","100"],1,"1000 = 10³, so log₁₀ 1000 = 3."]],
+["Mathematics","Indices","e",["Simplify 2³ × 2⁴.",["64","128","256","32"],1,"Add powers when bases match: 2³⁺⁴ = 2⁷ = 128."]],
+["Mathematics","Mensuration","m",["Find the area of a circle of radius 7 cm (π = 22/7).",["44 cm²","154 cm²","49 cm²","308 cm²"],1,"A = πr² = 22/7 × 7 × 7 = 154 cm². 44 is the circumference (2πr) – a common mix-up."]],
+["Physics","Units","e",["The SI unit of force is the…",["joule","newton","watt","pascal"],1,"Force is measured in newtons (N). Joule = energy, watt = power, pascal = pressure."]],
+["Physics","Motion","m",["A body starts from rest and accelerates at 4 m/s² for 5 s. Its final velocity is…",["9 m/s","20 m/s","1.25 m/s","0.8 m/s"],1,"Formula: v = u + at = 0 + 4 × 5 = 20 m/s."]],
+["Physics","Waves","m",["Which of these is a longitudinal wave?",["Light","Radio wave","Sound","X-ray"],2,"Sound is a longitudinal wave (particles vibrate along the direction of travel). The others are electromagnetic (transverse)."]],
+["Physics","Electricity","m",["A 6 Ω resistor carries a current of 2 A. The potential difference across it is…",["3 V","8 V","12 V","0.33 V"],2,"Formula: V = IR = 2 × 6 = 12 V."]],
+["Chemistry","Atomic Structure","e",["The atomic number of an element equals the number of its…",["neutrons","protons","protons plus neutrons","valence electrons"],1,"Atomic number = number of protons. Protons plus neutrons is the mass number."]],
+["Chemistry","Acids and Bases","e",["At 25 °C, the pH of pure water is…",["0","7","10","14"],1,"Pure water is neutral: pH 7. Below 7 is acidic; above 7 is basic."]],
+["Chemistry","Mole Concept","d",["How many moles are in 36 g of water? (H = 1, O = 16)",["1","2","3","4"],1,"Molar mass of H₂O = 18 g/mol. n = mass ÷ molar mass = 36 ÷ 18 = 2 mol."]],
+["Chemistry","Periodic Table","e",["Which of these is a noble gas?",["Nitrogen","Oxygen","Argon","Chlorine"],2,"Argon is in Group 18 (noble gases): unreactive because its outer shell is full."]],
+["Biology","Cell Biology","e",["Which organelle is known as the ‘powerhouse’ of the cell?",["Nucleus","Mitochondrion","Ribosome","Vacuole"],1,"Mitochondria release energy (ATP) through aerobic respiration."]],
+["Biology","Plant Nutrition","e",["Green plants take in which gas for photosynthesis?",["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],1,"Equation: carbon dioxide + water → glucose + oxygen (light and chlorophyll needed)."]],
+["Biology","Blood","m",["Which blood group is the universal donor (for red cells)?",["A","B","AB","O"],3,"Group O red cells carry no A or B antigens, so most recipients can accept them."]],
+["Biology","Parasitology","m",["The vector of the malaria parasite is the female…",["Culex mosquito","Aedes mosquito","Anopheles mosquito","tsetse fly"],2,"Only female Anopheles mosquitoes transmit Plasmodium. Tsetse flies transmit sleeping sickness."]],
+["Economics","Basic Concepts","e",["Opportunity cost is best defined as…",["money spent on a good","the next best alternative forgone","the price of a good","total cost of production"],1,"Because resources are scarce, choosing one option means giving up the next best one."]],
+["Economics","Demand","m",["Other things equal, when the price of a good rises, quantity demanded…",["rises","falls","stays constant","doubles"],1,"This is the law of demand: price and quantity demanded move in opposite directions."]],
+["Economics","Production","e",["Which of these is a factor of production?",["Tax","Land","Profit","Price"],1,"The factors are land, labour, capital and entrepreneurship. Profit is the reward of entrepreneurship."]],
+["Economics","Money and Inflation","m",["Inflation is a…",["fall in the exchange rate only","sustained rise in the general price level","rise in one price","fall in output"],1,"Inflation means prices in general keep rising over time, reducing purchasing power."]],
+["Government","Concepts of Government","e",["A system in which powers are shared between a central government and regional governments is called…",["a unitary system","a federal system","a monarchy","an oligarchy"],1,"In a federal system, the constitution divides powers between the centre and the regions. In a unitary system, power is concentrated in the central government."]],
+["Government","Nigerian History","e",["Nigeria became independent from British rule in…",["1957","1960","1963","1966"],1,"Nigeria gained independence on 1 October 1960. It became a republic in 1963."]],
+["Government","Separation of Powers","m",["The doctrine of separation of powers is most closely associated with…",["John Locke","Montesquieu","Jean-Jacques Rousseau","Thomas Hobbes"],1,"Montesquieu argued that dividing power among the legislature, executive and judiciary prevents tyranny."]],
+["Government","Arms of Government","e",["The primary function of the legislature is to…",["interpret laws","enforce laws","make laws","try offenders"],2,"The legislature makes laws. The executive enforces them and the judiciary interprets them."]],
+["Literature in English","Poetry","e",["A poem of fourteen lines is called a…",["ballad","sonnet","elegy","ode"],1,"A sonnet has fourteen lines. A ballad tells a story; an elegy mourns; an ode praises."]],
+["Literature in English","Figures of Speech","m",["‘As brave as a lion’ is an example of…",["metaphor","simile","irony","hyperbole"],1,"A simile compares two things directly using ‘as’ or ‘like’. A metaphor states one thing is another."]],
+["Literature in English","Drama","e",["The main character in a play is called the…",["antagonist","protagonist","narrator","chorus"],1,"The protagonist is the central character. The antagonist opposes the protagonist."]],
+["Literature in English","Figures of Speech","m",["‘The wind whispered through the trees’ is an example of…",["personification","onomatopoeia","oxymoron","paradox"],0,"The wind is given a human action (whispering), which is personification."]]
+];
+const Q=RAW.map((r,i)=>({id:"S"+(i+1),subj:r[0],topic:r[1],diff:{e:"Easy",m:"Medium",d:"Hard"}[r[2]],q:r[3][0],o:r[3][1],a:r[3][2],ex:r[3][3],status:"Original sample (unverified)",cat:"D"}));
+const QB=Object.fromEntries(Q.map(q=>[q.id,q]));
+/* Formula Bank: [subject, topic, name, formula, symbols & units, worked example, common mistake] */
+const FORM=[
+["Mathematics","Algebra","Quadratic formula","x = (−b ± √(b²−4ac)) / 2a","a, b, c are the coefficients in ax² + bx + c = 0","x² − 5x + 6 = 0: x = (5 ± 1)/2, so x = 3 or 2","Forgetting that −b changes the sign of b"],
+["Mathematics","Indices","Product of powers","aᵐ × aⁿ = aᵐ⁺ⁿ","a is the base; m, n are powers (same base only)","2³ × 2⁴ = 2⁷ = 128","Multiplying the bases as well"],
+["Mathematics","Logarithms","Product rule","log(ab) = log a + log b","a, b are positive numbers","log 2 + log 5 = log 10 = 1","Writing log(a + b) = log a + log b (false)"],
+["Mathematics","Mensuration","Area of a circle","A = πr²","r = radius; A in square units","r = 7 cm, π = 22/7: A = 154 cm²","Using 2πr (circumference) instead"],
+["Physics","Motion","First equation of motion","v = u + at","u, v in m/s; a in m/s²; t in s; constant acceleration only","u = 0, a = 4, t = 5: v = 20 m/s","Using it when acceleration is changing"],
+["Physics","Motion","Second equation of motion","s = ut + ½at²","s = displacement (m)","u = 0, a = 2, t = 3: s = ½ × 2 × 9 = 9 m","Forgetting the ½"],
+["Physics","Electricity","Ohm’s law","V = IR","V in volts, I in amperes, R in ohms","I = 2 A, R = 6 Ω: V = 12 V","Applying it to non-ohmic components"],
+["Physics","Units","Newton’s second law","F = ma","F in newtons; m in kg; a in m/s²","m = 5 kg, a = 3 m/s²: F = 15 N","Confusing mass (kg) with weight (N)"],
+["Chemistry","Mole Concept","Amount of substance","n = m / M","n in mol; m in g; M in g/mol","36 g of H₂O (M = 18): n = 2 mol","Using the wrong molar mass"],
+["Chemistry","Acids and Bases","pH","pH = −log[H⁺]","[H⁺] in mol/dm³","[H⁺] = 10⁻³: pH = 3","Forgetting pH is a log scale"]];
+const CEQ=[["2H₂ + O₂ → 2H₂O","Combustion/synthesis; ignite with a flame","Burns with a pop; water forms"],["CaCO₃ → CaO + CO₂","Thermal decomposition; strong heat","White solid; gas turns limewater milky"],["Zn + 2HCl → ZnCl₂ + H₂","Displacement; dilute acid","Fizzing; hydrogen burns with a pop"],["NaOH + HCl → NaCl + H₂O","Neutralisation","Solution warms; pH moves to 7"],["N₂ + 3H₂ ⇌ 2NH₃","Haber process; about 450 °C, 200 atm, iron catalyst","Reversible; ammonia formed"],["CH₄ + 2O₂ → CO₂ + 2H₂O","Complete combustion","Blue flame; heat released"]];
+const N=(id,subj,topic,intro,pts,ex,trap,sum,self)=>({id,subj,topic,intro,pts,ex,trap,sum,self});
+/* Study notes (template: intro, key points, worked example, trap, summary, self-test). Covers 8 topics only, not full syllabi. */
+const NOTES=[
+N("n1","Mathematics","Algebra","Algebra uses letters for unknown numbers. Solving an equation means finding the value that makes it true.",["Do the same operation to both sides.","Collect x-terms on one side and numbers on the other.","Quadratic ax² + bx + c = 0: factorise or use x = (−b ± √(b²−4ac)) / 2a.","If b²−4ac is positive: two real roots; zero: one repeated root; negative: no real roots."],"2x + 5 = 17 → 2x = 12 → x = 6.","Subtract before dividing, and watch signs when moving terms.","Isolate x with inverse operations. Use the discriminant to count roots.",[["Solve 3x − 4 = 11","x = 5"],["How many real roots if b²−4ac is negative?","None"]]),
+N("n2","Mathematics","Indices","An index (power) says how many times a base is multiplied by itself.",["aᵐ × aⁿ = aᵐ⁺ⁿ","aᵐ ÷ aⁿ = aᵐ⁻ⁿ","(aᵐ)ⁿ = aᵐⁿ","a⁰ = 1 and a⁻ⁿ = 1/aⁿ"],"2³ × 2⁴ = 2⁷ = 128.","Add powers; do not multiply the bases (2³ × 2⁴ is not 4⁷).","Same base: add when multiplying, subtract when dividing.",[["Value of 5⁰","1"],["Value of 2⁻³","1/8"]]),
+N("n3","Physics","Motion","Motion describes how position changes with time. Velocity has direction; speed does not.",["Speed = distance ÷ time","Acceleration = (v − u) ÷ t","v = u + at; s = ut + ½at²; v² = u² + 2as (constant acceleration only)","Convert km/h to m/s by dividing by 3.6"],"u = 0, a = 4 m/s², t = 5 s → v = 0 + 4 × 5 = 20 m/s.","The equations fail if acceleration changes. Always check units first.","Pick the equation that contains the quantities you know.",[["Convert 72 km/h to m/s","20 m/s"],["10 m/s with a = 2 m/s² for 3 s. Final v?","16 m/s"]]),
+N("n4","Chemistry","Mole Concept","The mole counts particles. One mole contains 6.02 × 10²³ particles (Avogadro’s number).",["Molar mass = sum of relative atomic masses, in g/mol","n = m / M","Use the formula’s subscripts: H₂O has 2 hydrogen atoms"],"36 g of H₂O (M = 2 + 16 = 18): n = 36 ÷ 18 = 2 mol.","Using M = 16 for water (oxygen only) or forgetting the subscripts.","Find M, then divide mass by M.",[["Molar mass of CO₂ (C = 12, O = 16)","44 g/mol"],["Moles in 8 g of O₂ (O = 16)","8 ÷ 32 = 0.25 mol"]]),
+N("n5","Chemistry","Acids and Bases","Acids release H⁺ in water; bases accept H⁺ (alkalis are soluble bases).",["pH 7 neutral; below 7 acidic; above 7 alkaline (at 25 °C)","pH = −log[H⁺]","Acid + base → salt + water (neutralisation)","Litmus: red in acid, blue in alkali"],"[H⁺] = 10⁻⁵ mol/dm³ → pH = 5.","pH is logarithmic: pH 3 is ten times more acidic than pH 4.","Low pH = acidic. Neutralisation gives salt and water.",[["pH when [H⁺] = 10⁻⁵?","5"],["Blue litmus in acid turns…","Red"]]),
+N("n6","Biology","Cell Biology","The cell is the basic unit of life.",["Nucleus: controls the cell and holds DNA","Mitochondria: aerobic respiration (ATP)","Ribosomes: protein synthesis","Chloroplasts and cell wall: plant cells only"],"A root cell has a cell wall but no chloroplasts, because roots are underground.","Animal cells have no cell wall or chloroplasts.","Match each organelle to one job.",[["Site of photosynthesis","Chloroplast"],["Which organelle releases energy?","Mitochondrion"]]),
+N("n7","Economics","Demand","Demand is the quantity of a good consumers are willing and able to buy at a price.",["Law of demand: price up → quantity demanded down (other things equal)","Demand shifts with income, tastes, prices of related goods and population","A price change moves you along the curve"],"Income rises and a normal good’s demand rises: the curve shifts right.","Mixing up movement along the curve (own price) with a shift (other factors).","Own price: movement. Anything else: shift.",[["Own price rises: what happens?","Quantity demanded falls (contraction)"],["Income rises, normal good?","Demand shifts right"]]),
+N("n8","English Language","Grammar","Verbs must agree with their subjects in number.",["Singular subject takes a singular verb","Neither, either, each and everyone are singular","Ignore phrases between subject and verb (‘of the boys’)","‘The number of’ is singular; ‘a number of’ is plural"],"Each of the girls is present.","A plural noun near the verb can trick you.","Find the true subject, then match the verb.",[["Neither of the boys ___ (is/are) late","is"],["A number of students ___ (is/are) absent","are"]])
+];
+/* ---------- STATE ---------- */
+const KEY="jambace.v1";
+let S={p:null,att:[],bm:{},mocks:[],days:{},tasks:{},theme:"auto",learn:true,act:null,imp:[],nr:{},nb:{},pn:{}};
+try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&typeof x==="object")S=Object.assign(S,x)}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+/* ---------- CONTENT: validation, import, library ---------- */
+const norm=s=>String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"");
+function addQ(x){const q={id:x.id,subj:x.subj,topic:x.topic,diff:x.diff,q:x.q,o:x.o.map(String),a:x.a,ex:x.ex,status:x.status||"awaiting review",cat:x.cat,src:x.src,year:x.year};Q.push(q);QB[q.id]=q}
+(S.imp||[]).forEach(x=>{try{addQ(x)}catch(e){}});
+function vq(x,seen){const e=[],m=k=>x[k]===undefined||x[k]===null||x[k]==="";
+ ["id","subj","topic","q","ex","diff","cat"].forEach(k=>m(k)&&e.push("missing "+k));
+ if(!Array.isArray(x.o)||x.o.length!==4||x.o.some(o=>!String(o).trim())||new Set(x.o.map(o=>norm(o))).size<4)e.push("needs 4 distinct options");
+ if(!Number.isInteger(x.a)||x.a<0||x.a>3)e.push("answer must be 0–3");
+ if(x.subj&&!SUBJ.includes(x.subj))e.push("unsupported subject");
+ if(x.ex&&String(x.ex).length<40)e.push("explanation too short");
+ if(!m("diff")&&!["Easy","Medium","Hard","Advanced"].includes(x.diff))e.push("bad difficulty");
+ if(!m("cat")&&!["A","B","C","D"].includes(x.cat))e.push("bad category");
+ if(["A","B","C"].includes(x.cat)&&(m("src")||!(x.year>=1970&&x.year<=2026)))e.push("historical record needs source and year (1970–2026)");
+ if(!m("q")&&seen.has(norm(x.q)))e.push("duplicate question");
+ if(!m("id")&&seen.has("id:"+x.id))e.push("duplicate id");
+ return e}
+function importPack(doit){const out=$("#ir");let a;try{a=JSON.parse($("#ij").value);if(!Array.isArray(a))a=[a]}catch(e){out.innerHTML='<div class="note">Invalid JSON: '+esc(e.message)+'</div>';return}
+ const seen=new Set();Q.forEach(q=>{seen.add(norm(q.q));seen.add("id:"+q.id)});let ok=0;const msg=[];
+ a.forEach((x,i)=>{x=x||{};const e=vq(x,seen);if(e.length)msg.push("#"+(i+1)+" "+esc(x.id||"?")+": "+esc(e.join("; ")));else{ok++;seen.add(norm(x.q));seen.add("id:"+x.id);if(doit){x.status=x.status||"awaiting review";S.imp.push(x);addQ(x)}}});
+ if(doit){save();render();$("#ir")&&0}
+ out.innerHTML=`<p><b>${ok}</b> valid, <b>${msg.length}</b> rejected${doit?" (valid records imported)":""}.</p>${msg.map(m=>'<p class="mu">'+m+'</p>').join("")}`}
+let lt="notes",lq="",cur=null;
+function openLib(t,q){lt=t;lq=q||"";cur=null;go("lib")}
+function openNote(id){lt="notes";cur=id;lq="";S.last=id;save();go("lib")}
+function startTopic(s,t){start(t+" practice",shuf(Q.filter(q=>q.subj===s&&q.topic===t)).slice(0,8).map(q=>q.id),{learn:true})}
+function rel(q){const n=NOTES.find(n=>n.topic===q.topic&&n.subj===q.subj),f=FORM.some(x=>x[1]===q.topic&&x[0]===q.subj);return(n?`<button class="btn s" onclick="openNote('${n.id}')">Related note</button>`:"")+(f?`<button class="btn s" onclick="openLib('form','${q.topic}')">Formula</button>`:"")}
+function cp(i){try{navigator.clipboard.writeText(FORM[i][3]);alert("Copied")}catch(e){alert(FORM[i][3])}}
+function library(){const T=[["subj","Subjects"],["notes","Notes"],["form","Formulas"],["arch","Past Qs"],["qa","Quality"]];
+ return `<h1>Library</h1><div class="row" style="margin-bottom:10px">${T.map(t=>`<button class="btn s ${lt===t[0]?"p":""}" onclick="lt='${t[0]}';cur=null;lq='';render()">${t[1]}</button>`).join("")}</div>`+({subj:subjV,notes:notesV,form:formV,arch:archV,qa:qaV}[lt])()}
+function nlist(){const f=lq.toLowerCase();const r=NOTES.filter(n=>(n.subj+n.topic+n.intro+n.pts.join(" ")).toLowerCase().includes(f));return r.length?r.map(n=>`<button class="opt" onclick="openNote('${n.id}')">${S.nr[n.id]?"✅":"📖"} <b>${n.topic}</b> <span class="mu">${n.subj}</span></button>`).join(""):'<p class="mu">No notes match. Try another word.</p>'}
+function notesV(){if(cur){const n=NOTES.find(x=>x.id===cur);if(n)return noteV(n)}
+ const r=Object.values(S.nr).filter(Boolean).length,l=NOTES.find(n=>n.id===S.last);
+ return `<div class="card"><b>${r}/${NOTES.length} notes read</b><div class="bar"><div style="width:${pct(r,NOTES.length)}%"></div></div><p class="mu">${NOTES.length} topics so far. This is not the full syllabus for any subject.</p>${l?`<button class="btn g s" onclick="openNote('${l.id}')">Resume: ${l.topic}</button>`:""}<label for="ls">Search notes</label><input id="ls" value="${esc(lq)}" oninput="lq=this.value;$('#lr').innerHTML=nlist()"></div><div id="lr">${nlist()}</div>`}
+function noteV(n){const nq=Q.filter(q=>q.subj===n.subj&&q.topic===n.topic).length;
+ return `<button class="btn s" onclick="cur=null;render()">← All notes</button><div class="card" style="margin-top:10px"><span class="tag">${n.subj}</span><h2>${n.topic}</h2><p>${n.intro}</p><h3>Key points</h3><ul>${n.pts.map(p=>`<li>${p}</li>`).join("")}</ul><h3>Worked example</h3><p>${n.ex}</p><div class="note"><b>Exam trap:</b> ${n.trap}</div><h3>Summary</h3><p>${n.sum}</p><h3>Self-test</h3>${n.self.map(s=>`<details><summary>${s[0]}</summary><p>${s[1]}</p></details>`).join("")}
+ <label for="pn1">My notes</label><textarea id="pn1" rows="3" style="width:100%;border:1px solid var(--bd);border-radius:10px;padding:8px;background:var(--card);color:inherit" onchange="S.pn['${n.id}']=this.value;save()">${esc(S.pn[n.id]||"")}</textarea>
+ <div class="row" style="margin-top:10px"><button class="btn s ${S.nr[n.id]?"g":""}" onclick="S.nr['${n.id}']=!S.nr['${n.id}'];save();render()">${S.nr[n.id]?"✅ Read":"Mark as read"}</button><button class="btn s" onclick="S.nb['${n.id}']=!S.nb['${n.id}'];save();render()">${S.nb[n.id]?"★ Saved":"☆ Save"}</button><button class="btn s p" ${nq?"":"disabled"} onclick="startTopic('${n.subj}','${n.topic}')">Practise (${nq} Qs)</button></div></div>`}
+function flist(){const f=lq.toLowerCase(),sf=$("#fs")?$("#fs").value:"";
+ const a=FORM.map((x,i)=>[x,i]).filter(([x])=>(!sf||x[0]===sf)&&x.join(" ").toLowerCase().includes(f));
+ const c=CEQ.filter(x=>(!sf||sf==="Chemistry")&&x.join(" ").toLowerCase().includes(f));
+ return a.map(([x,i])=>`<div class="card"><span class="tag">${x[0]}</span> <span class="mu">${x[1]}</span><h3>${x[2]}</h3><p style="font-size:1.1rem"><b>${esc(x[3])}</b></p><p class="mu">${esc(x[4])}<br>Example: ${esc(x[5])}<br>Mistake: ${esc(x[6])}</p><div class="row"><button class="btn s" onclick="cp(${i})">Copy</button><button class="btn s" onclick="S.nb['f${i}']=!S.nb['f${i}'];save();render()">${S.nb["f"+i]?"★ Saved":"☆ Save"}</button><button class="btn s" onclick="startTopic('${x[0]}','${x[1]}')">Practise</button></div></div>`).join("")+(c.length?`<h2>Chemistry equations</h2>`+c.map(x=>`<div class="card"><b>${x[0]}</b><p class="mu">${x[1]}<br>Observation: ${x[2]}</p></div>`).join(""):"")||'<p class="mu">Nothing found.</p>'}
+function formV(){return `<div class="card"><p class="mu">${FORM.length} formulas and ${CEQ.length} equations. A starter set, not a full syllabus.</p><label for="ls">Search</label><input id="ls" value="${esc(lq)}" oninput="lq=this.value;$('#lr').innerHTML=flist()"><label for="fs">Subject</label><select id="fs" onchange="$('#lr').innerHTML=flist()"><option value="">All</option><option>Mathematics</option><option>Physics</option><option>Chemistry</option></select></div><div id="lr">${flist()}</div>`}
+function archV(){const v=Q.filter(q=>q.cat!=="D"&&q.status==="verified"),d=Q.filter(q=>q.cat==="D").length;
+ return `<div class="card"><h2>JAMB Past Questions Archive</h2><p><b>Verified historical questions: ${v.length}</b></p><p class="note">Not yet available. No authorised past-question papers have been imported, and this app never invents years or sources. Every year and subject stays empty until verified material is imported on the Quality tab.</p>
+ <p class="mu">Categories: A verified historical · B licensed or authorised · C adapted from a verified source · D original JAMB-style practice (never shown as a real past question). Current bank: A/B/C = ${v.length}, D = ${d}.</p>${v.length?`<button class="btn p" onclick="start('Archive practice',${JSON.stringify(shuf(v).slice(0,10).map(q=>q.id)).replace(/"/g,"'")},{learn:true})">Practise archive</button>`+v.map(q=>`<p>${q.year} · ${q.subj} · ${q.topic} <span class="tag">${q.cat}</span></p>`).join(""):""}</div>`}
+function qaV(){const by={},bt={},df={};let ex=0,rv=0,bad=0,dup=0;const seen=new Set();
+ Q.forEach(q=>{by[q.subj]=(by[q.subj]||0)+1;const k=q.subj+" – "+q.topic;bt[k]=(bt[k]||0)+1;df[q.diff]=(df[q.diff]||0)+1;if(String(q.ex||"").length>=40)ex++;if(q.status!=="verified")rv++;const e=vq(q,seen);seen.add(norm(q.q));seen.add("id:"+q.id);if(e.length)(e.some(z=>z.startsWith("duplicate"))?dup++:bad++)});
+ const ls=o=>Object.entries(o).map(([k,v])=>`<div class="row sp"><span>${esc(k)}</span><b>${v}</b></div>`).join("");
+ return `<div class="card"><h2>Content quality report</h2><div class="row sp"><span>Total questions</span><b>${Q.length}</b></div><div class="row sp"><span>Imported</span><b>${S.imp.length}</b></div><div class="row sp"><span>With full explanations</span><b>${ex}</b></div><div class="row sp"><span>Original practice (D)</span><b>${Q.filter(q=>q.cat==="D").length}</b></div><div class="row sp"><span>Verified historical</span><b>${Q.filter(q=>q.cat!=="D"&&q.status==="verified").length}</b></div><div class="row sp"><span>Awaiting expert review</span><b>${rv}</b></div><div class="row sp"><span>Incomplete / duplicate</span><b>${bad} / ${dup}</b></div><h3 style="margin-top:10px">By subject</h3>${ls(by)}<h3 style="margin-top:10px">Difficulty</h3>${ls(df)}<h3 style="margin-top:10px">By topic</h3>${ls(bt)}</div>
+ <div class="card"><h2>Import question pack</h2><p class="mu">Paste a JSON array. Fields: id, subj, topic, q, o (4 options), a (0–3), ex (40+ characters), diff (Easy/Medium/Hard/Advanced), cat (A–D); for A–C also src and year; status "verified" only after human review. OCR text must be checked by a person first.</p><label for="ij">JSON</label><textarea id="ij" rows="6" style="width:100%;border:1px solid var(--bd);border-radius:10px;padding:8px;background:var(--card);color:inherit"></textarea><div class="row" style="margin-top:8px"><button class="btn s" onclick="importPack(false)">Validate</button><button class="btn s p" onclick="importPack(true)">Import valid</button></div><div id="ir"></div></div>`}
+let paused=false,view="home",res=null,tid=null,ob={subs:["English Language"]};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const today=()=>new Date().toISOString().slice(0,10);
+const pct=(n,d)=>d?Math.round(100*n/d):null;
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const L="ABCD";
+function applyTheme(){document.documentElement.dataset.theme=S.theme==="auto"?"":S.theme}
+/* ---------- ANALYTICS ---------- */
+function stats(){
+ const by={},bt={};
+ S.att.forEach(a=>{const q=QB[a.q];if(!q)return;(by[q.subj]=by[q.subj]||[]).push(a);(bt[q.subj+"|"+q.topic]=bt[q.subj+"|"+q.topic]||[]).push(a)});
+ const topics=Object.entries(bt).map(([k,v])=>({k,subj:k.split("|")[0],topic:k.split("|")[1],n:v.length,acc:pct(v.filter(a=>a.c).length,v.length)}));
+ const first=S.att.filter(a=>a.f);
+ const last={};S.att.forEach(a=>last[a.q]=a.c);
+ return{by,topics,weak:topics.filter(t=>t.n>=2&&t.acc<70).sort((a,b)=>a.acc-b.acc),acc:pct(S.att.filter(a=>a.c).length,S.att.length),facc:pct(first.filter(a=>a.c).length,first.length),wrong:Object.keys(last).filter(k=>!last[k]&&QB[k]),seen:new Set(S.att.map(a=>a.q))}
+}
+function streak(){let n=0,d=new Date();if(!S.days[today()])d.setDate(d.getDate()-1);while(S.days[d.toISOString().slice(0,10)]){n++;d.setDate(d.getDate()-1)}return n}
+/* ---------- SESSIONS ---------- */
+function start(title,ids,o){
+ if(!ids.length){alert("No questions match. Try different options or answer more questions first.");return}
+ paused=false;S.act={title,qs:ids,ans:{},mark:{},i:0,learn:!!o.learn,mock:!!o.mock,end:o.mins?Date.now()+o.mins*60000:null,t0:Date.now(),subs:o.subs||null};
+ save();render();
+}
+function startTimer(){clearInterval(tid);tid=null;if(!S.act||!S.act.end)return;tid=setInterval(()=>{if(!S.act){clearInterval(tid);return}const r=S.act.end-Date.now();const el=$("#tm");if(r<=0){clearInterval(tid);submit(true);return}if(el){const s=Math.ceil(r/1000);el.textContent=Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}},500)}
+function submit(auto){
+ const A=S.act;if(!A||A.done)return;A.done=true;paused=false;clearInterval(tid);
+ const seen=new Set(S.att.map(a=>a.q));let c=0,w=0,u=0;const sub={};const now=Date.now();
+ A.qs.forEach(id=>{const q=QB[id];const x=A.ans[id];sub[q.subj]=sub[q.subj]||{c:0,n:0};sub[q.subj].n++;
+  if(x===undefined){u++;return}const ok=x===q.a;ok?(c++,sub[q.subj].c++):w++;
+  S.att.push({q:id,c:ok,f:!seen.has(id),t:now});seen.add(id)});
+ if(c+w>0)S.days[today()]=(S.days[today()]||0)+c+w;
+ const r={title:A.title,mock:A.mock,c,w,u,n:A.qs.length,sub,secs:Math.round((now-A.t0)/1000),qs:A.qs,ans:A.ans,auto:!!auto,date:now};
+ if(A.mock)S.mocks.push({title:A.title,date:now,c,n:A.qs.length,sub});
+ S.act=null;res=r;save();render();
+}
+function answer(id,i){const A=S.act;if(!A)return;A.ans[id]=i;save();render()}
+/* ---------- LAUNCHERS ---------- */
+function quick(){
+ const g=id=>$(id).value,sub=g("#qs"),top=g("#qt"),diff=g("#qd"),n=+g("#qn"),mins=+g("#qm");
+ let pool=Q.filter(q=>q.subj===sub&&(!top||q.topic===top)&&(!diff||q.diff===diff));
+ start(sub+" practice",shuf(pool).slice(0,n).map(q=>q.id),{learn:$("#ql").checked,mins:mins||0});
+}
+function special(k){
+ const st=stats();let ids=[],t="";
+ if(k==="wrong"){ids=st.wrong;t="Review incorrect answers"}
+ if(k==="bm"){ids=Object.keys(S.bm).filter(i=>QB[i]);t="Bookmarked questions"}
+ if(k==="weak"){const w=st.weak.map(x=>x.k);ids=Q.filter(q=>w.includes(q.subj+"|"+q.topic)).map(q=>q.id);t="Weak topic practice"}
+ if(k==="daily"){const mine=S.p.subs;ids=shuf(Q.filter(q=>mine.includes(q.subj))).slice(0,5).map(q=>q.id);t="Daily challenge"}
+ if(!ids.length){alert(k==="wrong"?"No incorrect answers yet. Complete a practice session first.":k==="bm"?"No bookmarks yet. Tap ☆ on any question.":k==="weak"?"No weak topics yet. A topic appears here after at least 2 answers below 70%.":"No questions available.");return}
+ start(t,shuf(ids),{learn:true});
+}
+function mock(){
+ const ids=[],low=[];S.p.subs.forEach(s=>{const a=Q.filter(q=>q.subj===s);if(a.length<CFG.perSubject)low.push(s+" ("+a.length+")");ids.push(...shuf(a).slice(0,CFG.perSubject).map(q=>q.id))});if(low.length&&!confirm("Not enough questions for: "+low.join(", ")+". Start with fewer?"))return;
+ start("Mock CBT",ids,{mock:true,mins:CFG.minutes,subs:S.p.subs});
+}
+function pauseS(){clearInterval(tid);paused=true;view="home";save();render()}
+function abandon(){if(confirm("Abandon this session? Answers will not be scored.")){clearInterval(tid);S.act=null;paused=false;save();render()}}
+function bm(id){if(S.bm[id])delete S.bm[id];else S.bm[id]={note:""};save();render()}
+function note(id){const n=prompt("Add a note for this question:",S.bm[id]?S.bm[id].note:"");if(n!==null){S.bm[id]={note:n};save();render()}}
+function go(v){view=v;res=null;render();scrollTo(0,0)}
+/* ---------- VIEWS ---------- */
+function onboarding(){
+ const subs=SUBJ.filter(s=>s!=="English Language");
+ return `<div class="card" style="margin-top:12px"><div class="logo">JAMB <i>ACE</i> 🎓</div><p class="mu">Prepare Smarter. Practise Better. Score Higher.</p>
+ <h2>Set up your profile</h2>
+ <label for="on">Preferred name</label><input id="on" autocomplete="given-name">
+ <label for="oc">Intended course (optional)</label><input id="oc" placeholder="e.g. Medicine">
+ <label for="ot">Target score (out of 400)</label><input id="ot" type="number" min="100" max="400" value="250">
+ <label for="od">Study time per day</label><select id="od"><option value="30">30 minutes</option><option value="60" selected>1 hour</option><option value="120">2 hours</option></select>
+ <label for="oe">Exam date (optional)</label><input id="oe" type="date">
+ <label>Your four subjects</label><div class="chk"><input type="checkbox" checked disabled id="en"><label for="en" style="margin:0;font-weight:500">English Language (compulsory)</label></div>
+ ${subs.map((s,i)=>`<div class="chk"><input type="checkbox" class="os" id="os${i}" value="${s}"><label for="os${i}" style="margin:0;font-weight:500">${s}</label></div>`).join("")}
+ <p class="note">Check subject combinations for your course on the official JAMB brochure and your institution’s website before registering.</p>
+ <button class="btn p w" onclick="finishOb()">Start preparing</button></div>`;
+}
+function finishOb(){
+ const subs=[...document.querySelectorAll(".os:checked")].map(x=>x.value);
+ if(subs.length!==3){alert("Choose exactly 3 subjects to go with English Language.");return}
+ const n=parseInt($("#ot").value);if(!(n>=100&&n<=400)){alert("Enter a target between 100 and 400.");return}
+ S.p={name:$("#on").value.trim()||"Student",course:$("#oc").value.trim(),target:n,mins:+$("#od").value,date:$("#oe").value,subs:["English Language",...subs]};
+ save();view="home";render();
+}
+function home(){
+ const st=stats(),p=S.p,t=today();
+ const days=p.date?Math.ceil((new Date(p.date)-new Date(t))/864e5):null;
+ const w=st.weak[0];
+ const plan=[["Practise "+(w?w.subj:p.subs[0])+(w?" – "+w.topic:""),Math.round(p.mins/2)],["Review incorrect answers",Math.round(p.mins/4)],["Daily challenge (5 questions)",Math.round(p.mins/4)]];
+ const done=S.tasks[t]||{};
+ return `<div class="row sp"><div><h1>Hello, ${esc(p.name)} 👋</h1><div class="mu">Target score: ${p.target}/400${days!==null?" · "+(days>0?days+" days to exam":"exam date reached"):""}</div></div></div>
+ <div class="card"><h2>Today’s plan</h2>${plan.map((x,i)=>`<div class="chk"><input type="checkbox" id="t${i}" ${done[i]?"checked":""} onchange="S.tasks['${t}']=S.tasks['${t}']||{};S.tasks['${t}'][${i}]=this.checked;save();render()"><label for="t${i}" style="margin:0;font-weight:500">${esc(x[0])} <span class="mu">· ${x[1]} min</span></label></div>`).join("")}
+ <p class="mu">Missed a day? No problem – just carry on today.</p>
+ ${S.act?`<button class="btn g w" onclick="paused=false;render()">Resume: ${esc(S.act.title)}</button><div class="row" style="margin-top:8px"><button class="btn s" onclick="paused=false;askSubmit()">Submit now</button><button class="btn s d" onclick="abandon()">Abandon</button></div>`:""}</div>
+ <div class="grid"><div class="card"><div class="big">${st.acc===null?"–":st.acc+"%"}</div><div class="mu">Practice accuracy</div></div>
+ <div class="card"><div class="big">${S.att.length}</div><div class="mu">Answered (bank: ${Q.length} samples)</div></div>
+ <div class="card"><div class="big">${streak()}</div><div class="mu">Day streak</div></div>
+ <div class="card"><div class="big">${S.mocks.length?pct(S.mocks[S.mocks.length-1].c,S.mocks[S.mocks.length-1].n)+"%":"–"}</div><div class="mu">Last mock</div></div></div>
+ <div class="card"><h2>Recommended next step</h2>${w?`<p>${esc(w.subj)} – <b>${esc(w.topic)}</b> is at ${w.acc}% over ${w.n} answers.</p><button class="btn p" onclick="special('weak')">Practise weak topics</button>`:S.att.length?`<p>No weak topics detected. Keep going with a mixed quick practice.</p><button class="btn p" onclick="go('practise')">Practise</button>`:`<p>Start with a quick practice in ${esc(p.subs[0])} so the app can learn where you need help.</p><button class="btn p" onclick="go('practise')">Start first practice</button>`}</div>
+ <div class="card"><h2>Quick actions</h2><div class="grid"><button class="btn" onclick="go('practise')">CBT practice</button><button class="btn" onclick="go('mock')">Full mock</button><button class="btn" onclick="special('wrong')">Review mistakes</button><button class="btn" onclick="openLib('subj')">Subjects &amp; notes</button><button class="btn" onclick="openLib('form')">Formula bank</button><button class="btn" onclick="openLib('arch')">Past questions</button><button class="btn" onclick="special('daily')">Daily challenge</button></div></div>
+ <p class="mu">“Small, steady practice beats last-minute cramming.” Practice accuracy is not a predicted UTME score.</p>`;
+}
+function practise(){
+ const p=S.p,fs=$("#fq")?$("#fq").value.toLowerCase():"";
+ const sub=p.subs[0];
+ return `<h1>Practise</h1><button class="btn w" style="margin-bottom:12px" onclick="openLib('notes')">📚 Notes, formulas and past questions</button><div class="card"><h2>Custom practice</h2>
+ <label for="qs">Subject</label><select id="qs" onchange="topics()">${p.subs.map(s=>`<option>${s}</option>`).join("")}</select>
+ <label for="qt">Topic</label><select id="qt"></select>
+ <label for="qd">Difficulty</label><select id="qd"><option value="">Any</option><option>Easy</option><option>Medium</option><option>Hard</option><option>Advanced</option></select>
+ <label for="qn">Questions</label><select id="qn"><option>4</option><option selected>8</option></select>
+ <label for="qm">Timer</label><select id="qm"><option value="0">No timer</option><option value="5">5 minutes</option><option value="10">10 minutes</option></select>
+ <div class="chk"><input type="checkbox" id="ql" checked><label for="ql" style="margin:0;font-weight:500">Learning mode (instant feedback)</label></div>
+ <button class="btn p w" onclick="quick()">Start practice</button></div>
+ <div class="card"><h2>Smart practice</h2><div class="grid"><button class="btn" onclick="special('weak')">Weak topics</button><button class="btn" onclick="special('wrong')">Incorrect answers</button><button class="btn" onclick="special('bm')">Bookmarks</button><button class="btn" onclick="special('daily')">Daily challenge</button></div></div>
+ <div class="card"><h2>Formula sheet</h2><label for="fq">Search</label><input id="fq" oninput="fsearch()" placeholder="e.g. ohm"><div id="fl"></div></div>
+ <div class="card"><h2>Topics</h2>${p.subs.map(s=>{const ts=[...new Set(Q.filter(q=>q.subj===s).map(q=>q.topic))];return `<p><b>${s}</b><br><span class="mu">${ts.join(", ")}</span></p>`}).join("")}</div>`;
+}
+function topics(){const s=$("#qs").value;$("#qt").innerHTML='<option value="">All topics</option>'+[...new Set(Q.filter(q=>q.subj===s).map(q=>q.topic))].map(t=>`<option>${t}</option>`).join("")}
+function fsearch(){const f=$("#fq").value.toLowerCase();const r=FORM.filter(x=>x.join(" ").toLowerCase().includes(f));$("#fl").innerHTML=r.length?r.map(x=>`<p><b>${x[2]}</b> <span class="tag">${x[0]}</span><br>${esc(x[3])}</p>`).join(""):'<p class="mu">No formula found.</p>'}
+function mockPage(){
+ const h=S.mocks.slice().reverse();
+ return `<h1>Mock CBT</h1><div class="card"><p>${S.p.subs.map(esc).join(", ")}<br><span class="mu">${CFG.perSubject} questions per subject · ${CFG.minutes} minutes</span></p>
+ <p class="note">Demo format built from the small sample bank. The official UTME question count and duration must be verified with JAMB and set in <code>CFG</code>. Answers are hidden until you submit.</p>
+ <button class="btn p w" onclick="mock()">Start mock exam</button></div>
+ <div class="card"><h2>History</h2>${h.length?h.map(m=>`<div class="row sp"><span>${new Date(m.date).toLocaleDateString()}</span><b>${m.c}/${m.n} (${pct(m.c,m.n)}%)</b></div>`).join(""):'<p class="mu">No mock exams yet. Your results will appear here.</p>'}</div>`;
+}
+function progress(){
+ const st=stats();
+ if(!S.att.length)return `<h1>Progress</h1><div class="card"><p>📊 No data yet.</p><p class="mu">Complete a practice session and your accuracy, topic strengths and weaknesses will show here.</p><button class="btn p" onclick="go('practise')">Start practising</button></div>`;
+ const row=(l,v,n)=>`<div style="margin:10px 0"><div class="row sp"><span>${esc(l)}</span><b>${v}%</b></div><div class="bar"><div style="width:${v}%"></div></div>${n?`<div class="mu">${n} answers</div>`:""}</div>`;
+ return `<h1>Progress</h1><div class="grid"><div class="card"><div class="big">${st.acc}%</div><div class="mu">Overall accuracy</div></div><div class="card"><div class="big">${st.facc}%</div><div class="mu">First-attempt accuracy</div></div></div>
+ <div class="card"><h2>By subject</h2>${Object.entries(st.by).map(([s,v])=>row(s,pct(v.filter(a=>a.c).length,v.length),v.length)).join("")}</div>
+ <div class="card"><h2>By topic</h2>${st.topics.sort((a,b)=>a.acc-b.acc).map(t=>row(t.subj+" – "+t.topic,t.acc,t.n)).join("")}</div>
+ <div class="card"><h2>Weakest topics</h2>${st.weak.length?st.weak.map(t=>`<p>${esc(t.topic)} (${t.acc}%)</p>`).join(""):'<p class="mu">None flagged yet (needs 2+ answers under 70%).</p>'}</div>
+ <p class="mu">Practice results indicate preparation. They do not predict or guarantee your official UTME score.</p>`;
+}
+function profile(){
+ const p=S.p;
+ return `<h1>Profile</h1><div class="card"><label for="pn">Name</label><input id="pn" value="${esc(p.name)}"><label for="pt">Target score</label><input id="pt" type="number" min="100" max="400" value="${p.target}"><label for="pe">Exam date</label><input id="pe" type="date" value="${p.date||""}"><label for="pc">Course</label><input id="pc" value="${esc(p.course||"")}">
+ <p class="mu">Subjects: ${p.subs.join(", ")}</p><button class="btn p w" onclick="S.p.name=$('#pn').value.trim()||'Student';S.p.target=+$('#pt').value||250;S.p.date=$('#pe').value;S.p.course=$('#pc').value;save();alert('Saved');render()">Save profile</button></div>
+ <div class="card"><h2>Settings</h2><label for="th">Theme</label><select id="th" onchange="S.theme=this.value;save();applyTheme()"><option value="auto" ${S.theme==="auto"?"selected":""}>Match device</option><option value="light" ${S.theme==="light"?"selected":""}>Light</option><option value="dark" ${S.theme==="dark"?"selected":""}>Dark</option></select>
+ <div class="chk"><input type="checkbox" id="pl" ${S.learn?"checked":""} onchange="S.learn=this.checked;save()"><label for="pl" style="margin:0;font-weight:500">Learning mode by default</label></div></div>
+ <div class="card"><h2>Your data</h2><p class="mu">Saved only in this browser on this device. There is no cloud backup or account yet.</p><div class="row"><button class="btn s" onclick="exportData()">Export data</button><label class="btn s" style="margin:0;display:inline-flex;align-items:center">Import data<input type="file" accept=".json" style="display:none" onchange="importData(this)"></label><button class="btn s d" onclick="if(confirm('Reset all progress and profile? This cannot be undone.')){localStorage.removeItem(KEY);location.reload()}">Reset everything</button></div></div>
+ <div class="card"><h2>About</h2><p class="mu">JAMB ACE prototype. All ${Q.length} questions are original samples, not official past questions. Admission requirements, subject combinations and exam format must be confirmed on jamb.gov.ng and your institution’s website. A production version needs authentication, a database, an AI tutor backend, and a content management system.</p></div>`;
+}
+function exportData(){const b=new Blob([JSON.stringify(S,null,1)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="jamb-ace-data.json";a.click()}
+/* ---------- SESSION & RESULT VIEWS ---------- */
+function session(){
+ const A=S.act,id=A.qs[A.i],q=QB[id],x=A.ans[id],reveal=A.learn&&!A.mock&&x!==undefined;
+ const pal=A.qs.map((k,j)=>`<button class="pal ${A.ans[k]!==undefined?"a":""} ${A.mark[k]?"m":""} ${j===A.i?"c":""}" aria-label="Question ${j+1}" onclick="S.act.i=${j};render()">${j+1}</button>`).join("");
+ const left=A.end?Math.max(0,Math.ceil((A.end-Date.now())/1000)):0;
+ return `<div class="top"><div class="row sp"><b>${esc(A.title)}</b>${A.end?`<b id="tm">${Math.floor(left/60)}:${String(left%60).padStart(2,"0")}</b>`:""}</div>
+ <div class="bar"><div style="width:${Math.round(100*Object.keys(A.ans).length/A.qs.length)}%"></div></div><div class="mu">${esc(S.p.name)} · ${Object.keys(A.ans).length}/${A.qs.length} answered</div></div>
+ ${A.mock?`<div class="row" style="margin:8px 0">${A.subs.map(s=>{const j=A.qs.findIndex(k=>QB[k].subj===s);return `<button class="btn s ${q.subj===s?"p":""}" onclick="S.act.i=${j};render()">${s}</button>`}).join("")}</div>`:""}
+ <div class="card"><div class="row sp"><span class="mu">Question ${A.i+1} of ${A.qs.length} · ${esc(q.subj)} · ${esc(q.topic)}</span><span class="tag">${q.cat==="D"?"Original sample":q.status==="verified"?"Historical "+q.year+" ("+q.cat+")":"Awaiting review"}</span></div>
+ <h2 style="margin-top:10px">${esc(q.q)}</h2>
+ ${q.o.map((o,i)=>`<button class="opt ${x===i?"sel":""} ${reveal&&i===q.a?"ok":""} ${reveal&&x===i&&i!==q.a?"no":""}" onclick="answer('${id}',${i})"><b>${L[i]}.</b> ${esc(o)}</button>`).join("")}
+ ${reveal?`<div class="exp"><b>${x===q.a?"Correct!":"Not quite. Answer: "+L[q.a]}</b><br>${esc(q.ex)}</div>`:""}
+ <div class="row"><button class="btn s" onclick="if(S.act.ans['${id}']!==undefined){delete S.act.ans['${id}'];render()}">Clear</button><button class="btn s" onclick="S.act.mark['${id}']=!S.act.mark['${id}'];render()">${A.mark[id]?"Unmark review":"Mark for review"}</button>${A.mock?"":`<button class="btn s" onclick="bm('${id}')">${S.bm[id]?"★ Saved":"☆ Save"}</button>${S.bm[id]?`<button class="btn s" onclick="note('${id}')">Note</button>`:""}`}</div></div>
+ <div class="row sp"><button class="btn" ${A.i?"":"disabled"} onclick="S.act.i--;render()">Previous</button><button class="btn" ${A.i<A.qs.length-1?"":"disabled"} onclick="S.act.i++;render()">Next</button></div>
+ <div class="card" style="margin-top:12px"><div class="row">${pal}</div><p class="mu">Green: answered · Gold: marked for review · White: unanswered</p></div>
+ <div class="row"><button class="btn g" onclick="askSubmit()">Submit</button><button class="btn" onclick="pauseS()">Pause</button><button class="btn d" onclick="abandon()">Abandon</button></div><p class="mu">Pause keeps your answers. ${A.end?"The exam clock keeps running while paused.":""} Keys: A–D answer, ←/→ move.</p><div></div>`;
+}
+function askSubmit(){const A=S.act,a=Object.keys(A.ans).length,u=A.qs.length-a,m=Object.values(A.mark).filter(Boolean).length;if(confirm(`Submit now?\nAnswered: ${a}\nUnanswered: ${u}\nMarked for review: ${m}`))submit(false)}
+function results(){
+ const r=res,p=pct(r.c,r.n);
+ const bad={};r.qs.forEach(id=>{const q=QB[id];if(r.ans[id]!==undefined&&r.ans[id]!==q.a)bad[q.topic]=(bad[q.topic]||0)+1});
+ return `<h1>${esc(r.title)} results</h1>${r.auto?'<div class="note">Time ran out and your exam was submitted automatically.</div>':""}
+ <div class="card"><div class="big">${p}%</div><div>${r.c} correct · ${r.w} wrong · ${r.u} unanswered · ${Math.floor(r.secs/60)}m ${r.secs%60}s</div><p class="mu">This is a simulated practice score, not an official UTME result.</p></div>
+ <div class="card"><h2>By subject</h2>${Object.entries(r.sub).map(([s,v])=>`<div class="row sp"><span>${s}</span><b>${v.c}/${v.n}</b></div>`).join("")}</div>
+ ${Object.keys(bad).length?`<div class="card"><h2>Revise next</h2><p>${Object.entries(bad).map(([t,n])=>`${esc(t)} (${n} missed)`).join(", ")}</p></div>`:""}
+ <h2>Review</h2>${r.qs.map((id,i)=>{const q=QB[id],x=r.ans[id];return `<div class="card"><div class="mu">${i+1}. ${q.subj} · ${q.topic}</div><p><b>${esc(q.q)}</b></p><p>Your answer: ${x===undefined?"<i>Not answered</i>":L[x]+". "+esc(q.o[x])} ${x===q.a?"✅":"❌"}<br>Correct: <b>${L[q.a]}. ${esc(q.o[q.a])}</b></p><div class="exp">${esc(q.ex)}</div><button class="btn s" onclick="bm('${id}')">${S.bm[id]?"★ Saved":"☆ Save question"}</button> ${rel(q)}</div>`}).join("")}
+ <div class="row"><button class="btn p" onclick="go('home')">Home</button><button class="btn" onclick="special('wrong')">Retry mistakes</button></div>`;
+}
+/* ---------- SHELL ---------- */
+function render(){
+ applyTheme();const app=$("#app");
+ if(!S.p){app.innerHTML=onboarding();return}
+ if(S.act&&S.act.end&&Date.now()>=S.act.end){submit(true);return}
+ if(S.act&&!paused){app.innerHTML=session();startTimer();return}
+ if(res){app.innerHTML=results();return}
+ const V={home,practise,mock:mockPage,progress,profile,lib:library};
+ const nav=[["home","🏠","Home"],["practise","✏️","Practise"],["mock","🖥️","Mock CBT"],["progress","📈","Progress"],["profile","👤","Profile"]];
+ app.innerHTML=`<div class="row sp" style="margin-bottom:8px"><div class="logo">JAMB <i>ACE</i></div><span class="mu">${navigator.onLine?"Online":"Offline"}</span></div>${V[view]()}<nav class="bn" aria-label="Main">${nav.map(n=>`<button class="${view===n[0]?"on":""}" onclick="go('${n[0]}')"><b>${n[1]}</b>${n[2]}</button>`).join("")}</nav>`;
+ if(view==="practise"){topics();fsearch()}
+}
+addEventListener("online",()=>{if(!S.act)render()});addEventListener("offline",()=>{if(!S.act)render()});
+addEventListener("keydown",e=>{const A=S.act;if(!A||paused||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;const k=e.key.toLowerCase(),i="abcd".indexOf(k);if(k.length===1&&i>=0)answer(A.qs[A.i],i);else if(k==="arrowright"&&A.i<A.qs.length-1){A.i++;render()}else if(k==="arrowleft"&&A.i>0){A.i--;render()}});
+function importData(el){const f=el.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(!o||!Array.isArray(o.att)||!Array.isArray(o.mocks)||typeof o.bm!=="object")throw 0;if(confirm("Replace current data with this file?")){localStorage.setItem(KEY,JSON.stringify(o));location.reload()}}catch(e){alert("This file is not a valid JAMB ACE export.")}};r.readAsText(f)}
+function subjV(){const st=stats();return '<p class="note">Syllabus checklists are incomplete: only topics that have sample questions are listed.</p>'+SUBJ.map(s=>{const qs=Q.filter(q=>q.subj===s),ts=[...new Set(qs.map(q=>q.topic))];return `<div class="card"><h2>${s}</h2><p class="mu">${qs.length} sample questions · ${ts.length} topics</p>${ts.map(t=>{const x=st.topics.find(z=>z.k===s+"|"+t),nt=NOTES.find(z=>z.subj===s&&z.topic===t);const lab=!x?"Not practised":x.n<3?"Keep practising ("+x.n+" answers)":x.acc<70?"Needs revision ("+x.acc+"%)":"Strong ("+x.acc+"%)";return `<div class="row sp" style="margin:8px 0"><span>${t}<br><span class="mu">${lab}${nt?" · note "+(S.nr[nt.id]?"read":"unread"):""}</span></span><span class="row">${nt?`<button class="btn s" onclick="openNote('${nt.id}')">Note</button>`:""}<button class="btn s p" onclick="startTopic('${s}','${t}')">Practise</button></span></div>`}).join("")}</div>`}).join("")}
+render();
+</script></body></html>
