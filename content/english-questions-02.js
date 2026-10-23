@@ -73,7 +73,7 @@
 ["No sooner had she arrived ___ the lights went out.","than","when","then","as"],
 ["Despite ___ ill, he attended the meeting.","being","was","be","been"],
 ["If I had known, I ___ earlier.","would have come","will come","would come yesterday","came"],
-["Not only did he apologise, ___ he offered to pay.","but also","and also did","as well as","but also did"],
+["Not only did he apologise, ___ he offered to pay.","but he also","and also did","as well as","but also did"],
 ["The more you practise, ___ you become.","the better","better","the best","more better"],
 ["She is one of the students who ___ won scholarships.","have","has","is","was"],
 ["I would rather you ___ the truth.","told","tell","will tell","have told tomorrow"],
