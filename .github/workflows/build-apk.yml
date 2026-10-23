@@ -30,7 +30,7 @@ jobs:
         run: npm install
 
       - name: Prepare web assets
-        run: mkdir -p www && cp index.html www/index.html
+        run: mkdir -p www/content && cp index.html www/index.html && cp -R content/. www/content/
 
       - name: Generate Android project
         run: npx cap add android
