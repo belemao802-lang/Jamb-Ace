@@ -1,7 +1,27 @@
 /* JAMB ACE English Language question pack 3/4: 100 original UTME-style practice items. */
 (function(){
  var out=[];
- function add(topic,rows){rows.forEach(function(x,i){var p=i%4,w=[x[2],x[3],x[4]],o=[],k=0;for(var j=0;j<4;j++)o.push(j===p?x[1]:w[k++]);out.push(["English Language",topic,(i%5===4?"d":i%3===0?"e":"m"),[x[0],o,p,x[5]||("The correct answer is "+x[1]+".")]]);});}
+ function explain(topic, answer) {
+   if (topic.indexOf("Lexis: Synonyms")===0) return "The correct answer is "+answer+" because it has the closest meaning to the target word in this context.";
+   if (topic.indexOf("Lexis: Antonyms")===0) return "The correct answer is "+answer+" because it expresses the opposite meaning of the target word.";
+   if (topic.indexOf("Idioms")===0) return "The correct answer is "+answer+" because it gives the conventional meaning of the whole expression, not a literal reading.";
+   if (topic.indexOf("Phrasal verbs")===0) return "The correct answer is "+answer+" because this verb-particle combination has that meaning in the sentence.";
+   if (topic.indexOf("Grammar: Concord")===0) return "The correct answer is "+answer+" because the verb must agree with the sentence's main subject.";
+   if (topic.indexOf("Grammar: Tenses")===0) return "The correct answer is "+answer+" because the time marker and order of events require that tense or aspect.";
+   if (topic.indexOf("Grammar: Prepositions")===0) return "The correct answer is "+answer+" because it is the standard preposition used with this word or phrase.";
+   if (topic.indexOf("Grammar: Word forms")===0) return "The correct answer is "+answer+" because that word form fits the grammar and meaning of the sentence.";
+   if (topic.indexOf("Sentence completion")===0) return "The correct answer is "+answer+" because it completes the clause pattern correctly and preserves the intended meaning.";
+   if (topic.indexOf("Spelling")===0) return "The correct answer is "+answer+"; the other choices contain spelling errors.";
+   if (topic.indexOf("Registers")===0) return "The correct answer is "+answer+" because it is the appropriate term for the field named in the question.";
+   if (topic.indexOf("Oral English")===0) return "The correct answer is "+answer+" because it matches the target sound, syllable stress or rhyme; compare pronunciation rather than spelling.";
+   if (topic.indexOf("Cloze")===0) return "The correct answer is "+answer+" because it fits both the grammar and the meaning of the sentence.";
+   if (topic.indexOf("Sentence interpretation")===0) return "The correct answer is "+answer+" because it expresses the intended meaning of the phrase in context.";
+   if (topic.indexOf("Punctuation")===0) return "The correct answer is "+answer+" because the punctuation marks the sentence structure correctly.";
+   if (topic.indexOf("Comprehension")===0) return "The correct answer is "+answer+" because it is supported by the information or clues in the scenario.";
+   if (topic.indexOf("Summary")===0) return "The correct answer is "+answer+" because effective summary keeps essential meaning and removes irrelevant detail.";
+   return "The correct answer is "+answer+" because it best fits the context, meaning and grammatical structure.";
+ }
+ function add(topic,rows){rows.forEach(function(x,i){var p=i%4,w=[x[2],x[3],x[4]],o=[],k=0;for(var j=0;j<4;j++)o.push(j===p?x[1]:w[k++]);out.push(["English Language",topic,(i%5===4?"d":i%3===0?"e":"m"),[x[0],o,p,x[5]||explain(topic,x[1])]]);});}
  add("Registers and specialised vocabulary",[
 ["In banking, money paid into an account is a…","deposit","sentence","verdict","harvest"],
 ["In law, a person formally accused of an offence is a…","defendant","patient","tenant","referee"],
