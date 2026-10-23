@@ -37,6 +37,7 @@ nav.bn button{flex:1;min-height:56px;border:0;background:none;color:var(--mu);fo
 <script src="content/english-questions-02.js"></script>
 <script src="content/english-questions-03.js"></script>
 <script src="content/english-questions-04.js"></script>
+<script src="content/english-notes.js"></script>
 <script>
 "use strict";
 /* ---------- CONFIG (update here when JAMB rules change; demo values NOT verified) ---------- */
@@ -80,6 +81,7 @@ const RAW=[
 RAW.push(...(window.JAMB_EXTRA_QUESTIONS||[]));
 const Q=RAW.map((r,i)=>({id:"S"+(i+1),subj:r[0],topic:r[1],diff:{e:"Easy",m:"Medium",d:"Hard"}[r[2]],q:r[3][0],o:r[3][1],a:r[3][2],ex:r[3][3],status:"Original sample (unverified)",cat:"D"}));
 const QB=Object.fromEntries(Q.map(q=>[q.id,q]));
+NOTES.push(...(window.JAMB_EXTRA_NOTES||[]));
 /* Formula Bank: [subject, topic, name, formula, symbols & units, worked example, common mistake] */
 const FORM=[
 ["Mathematics","Algebra","Quadratic formula","x = (−b ± √(b²−4ac)) / 2a","a, b, c are the coefficients in ax² + bx + c = 0","x² − 5x + 6 = 0: x = (5 ± 1)/2, so x = 3 or 2","Forgetting that −b changes the sign of b"],
