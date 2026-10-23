@@ -1,7 +1,7 @@
 {
   "appId": "com.jambace.app",
   "appName": "JAMB ACE",
-  "webDir": ".",
+  "webDir": "www",
   "bundledWebRuntime": false,
   "android": {
     "backgroundColor": "#0b1020"
