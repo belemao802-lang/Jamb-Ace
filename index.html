@@ -33,6 +33,7 @@ nav.bn button{flex:1;min-height:56px;border:0;background:none;color:var(--mu);fo
 .exp{border-left:4px solid var(--green);padding:6px 12px;margin:8px 0;background:rgba(18,161,80,.07);border-radius:6px;font-size:.92rem}
 @media(min-width:900px){#app{max-width:820px}}
 </style></head><body><div id="app"></div>
+<script src="content/english-questions-01.js"></script>
 <script>
 "use strict";
 /* ---------- CONFIG (update here when JAMB rules change; demo values NOT verified) ---------- */
@@ -73,6 +74,7 @@ const RAW=[
 ["Literature in English","Drama","e",["The main character in a play is called the…",["antagonist","protagonist","narrator","chorus"],1,"The protagonist is the central character. The antagonist opposes the protagonist."]],
 ["Literature in English","Figures of Speech","m",["‘The wind whispered through the trees’ is an example of…",["personification","onomatopoeia","oxymoron","paradox"],0,"The wind is given a human action (whispering), which is personification."]]
 ];
+RAW.push(...(window.JAMB_EXTRA_QUESTIONS||[]));
 const Q=RAW.map((r,i)=>({id:"S"+(i+1),subj:r[0],topic:r[1],diff:{e:"Easy",m:"Medium",d:"Hard"}[r[2]],q:r[3][0],o:r[3][1],a:r[3][2],ex:r[3][3],status:"Original sample (unverified)",cat:"D"}));
 const QB=Object.fromEntries(Q.map(q=>[q.id,q]));
 /* Formula Bank: [subject, topic, name, formula, symbols & units, worked example, common mistake] */
