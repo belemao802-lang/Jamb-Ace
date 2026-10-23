@@ -26,7 +26,7 @@
     var r=(i%9)+2, sq=r*r+1;
     num("Surds","Simplify √"+(r*r*4),r*2,[r,r*4,r*2+2],"The square root of a perfect square is its non-negative square root.",i);
     var x=i%9+1, c=i%11+2;
-    num("Algebraic expressions","Simplify "+x+"x + "+c+"x.",(2*x+c)+"x",[(x+c)+"x",(2*x+c+1)+"x",(x+2*c)+"x"],"Collect like terms by adding their coefficients.",i);
+    num("Algebraic expressions","Simplify "+x+"x + "+c+"x.",(x+c)+"x",[(2*x+c)+"x",(x+c+1)+"x",(x+2*c)+"x"],"Collect like terms by adding their coefficients.",i);
     var sol=i%12+2, k=i%8+2;
     num("Equations and inequalities","Solve "+k+"x + "+k+" = "+(k*sol+k)+".",sol,[sol+1,sol-1,sol+2],"Subtract the constant from both sides, then divide by the coefficient of x.",i);
     var rate=i%7+2, t=i%6+2;
@@ -38,7 +38,7 @@
     var x1=i%7, y1=i%5+1, x2=x1+2, y2=y1+(i%4)+1;
     var slope=(y2-y1)/(x2-x1);
     num("Coordinate geometry","Find the gradient of the line through ("+x1+", "+y1+") and ("+x2+", "+y2+").",String(slope),[String(slope+1),String(slope-1),String(y2-y1)],"Gradient = change in y divided by change in x.",i);
-    var ang=(i%8+2)*10;
+    var ang=(i%6+2)*10;
     num("Geometry","The angles of a triangle are "+ang+"°, "+(ang+10)+"° and x°. Find x.",180-ang-(ang+10),[180-ang,ang+10,180-2*ang],"Angles in a triangle add up to 180 degrees.",i);
     var length=i%9+3, width=i%6+2;
     num("Mensuration","Find the area of a rectangle of length "+length+" cm and width "+width+" cm.",length*width,[2*(length+width),length+width,length*width+length],"Area of a rectangle = length × width.",i);
