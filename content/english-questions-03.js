@@ -79,14 +79,14 @@
 ["Which word begins with the same consonant sound as 'zoo'?","zero","shoe","Sue","chew"],
 ["Which word begins with the same consonant sound as 'yes'?","yellow","jelly","zeal","cell"],
 ["Which word ends with the same consonant sound as 'sing'?","ring","sin","seen","sink"],
-["Which word begins with the same consonant sound as 'measure'?","genre","mission","major","leisure"],
+["Which word contains the same consonant sound as the middle consonant in 'measure'?","vision","mission","major","lemon"],
 ["Which word begins with the same consonant sound as 'kite'?","key","city","giant","sugar"],
 ["Which word begins with the same consonant sound as 'van'?","village","fan","ban","when"],
 ["Which word begins with the same consonant sound as 'quick'?","queen","keen","when","green"],
 ["Which word ends with the same consonant sound as 'cap'?","map","cab","can","cash"],
 ["Which word ends with the same consonant sound as 'bed'?","made","bet","bell","back"],
 ["Which word begins with the same consonant sound as 'river'?","road","laugh","wrote","jungle"],
-["Which word begins with the same consonant sound as 'knight'?","name","kite","time","gnaw"],
+["Which word begins with the same consonant sound as 'knight'?","name","kite","time","gate"],
 ["Which word begins with the same consonant sound as 'hour'?","honest","house","who","hot"],
 ["Which word begins with the same consonant sound as 'giant'?","giraffe","gate","get","goal"]
 ]);
