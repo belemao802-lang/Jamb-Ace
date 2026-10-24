@@ -1,6 +1,6 @@
 {
   "appId": "com.jambace.app",
-  "appName": "JAMB ACE",
+  "appName": "JAMB PREP APP",
   "webDir": "www",
   "bundledWebRuntime": false,
   "android": {
