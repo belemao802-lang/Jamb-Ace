@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>JAMB ACE</title>
+<title>JAMB PREP APP</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
 <style>
 :root{--navy:#101b49;--blue:#315efb;--violet:#8354f6;--green:#14a878;--gold:#f5ad42;--bg:#f4f6ff;--card:#fff;--tx:#18213d;--mu:#75809b;--bd:#e5e9f5;--bad:#d92d20;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
@@ -32,6 +32,21 @@ nav.bn button{flex:1;min-height:56px;border:0;background:none;color:var(--mu);fo
 .exp{border-left:4px solid var(--green);padding:8px 12px;margin:8px 0;background:rgba(20,168,120,.08);border-radius:8px;font-size:.92rem}
 .hero{position:relative;overflow:hidden;background:linear-gradient(130deg,#101b49 0%,#163d9e 56%,#7453f5 120%);color:#fff;border:0;border-radius:24px;padding:22px;margin:14px 0;box-shadow:0 12px 30px rgba(31,55,145,.2)}.hero h2,.hero h1{color:#fff}.hero .mu{color:#dbe4ff}.hero .btn{background:#fff;color:#2648bb;border:0}.hero-orb{position:absolute;right:-24px;top:-30px;width:145px;height:145px;border-radius:50%;background:rgba(255,255,255,.09);pointer-events:none}.quicktile{min-height:112px;text-align:left;padding:14px;border-radius:18px;border:1px solid var(--bd);background:var(--card);font-weight:800;cursor:pointer}.quicktile span{display:block;font-size:1.35rem;margin-bottom:8px}.quicktile small{display:block;font-weight:500;color:var(--mu);font-size:.77rem}.subject-chip{display:inline-flex;padding:6px 10px;border-radius:99px;background:rgba(49,94,251,.09);color:var(--blue);font-size:.78rem;font-weight:700}
 @media(min-width:900px){#app{max-width:820px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+/* Modern JAMB PREP APP visual refresh */
+.logo{font-size:1.28rem;letter-spacing:-.045em}.logo i{background:linear-gradient(100deg,#76a0ff,#a98aff);-webkit-background-clip:text;background-clip:text;color:transparent}
+#app{max-width:560px;padding:18px 16px 100px}
+.top{padding:10px 0}
+.hero{background:radial-gradient(circle at 94% 4%,rgba(142,111,255,.75),transparent 34%),linear-gradient(135deg,#101b49 0%,#214bc0 65%,#7954f6 120%);border-radius:26px;padding:23px 20px;box-shadow:0 15px 34px rgba(31,55,145,.22)}
+.hero h1{font-size:1.72rem;line-height:1.13;letter-spacing:-.04em}.hero .mu{color:#dbe4ff}.hero p{max-width:290px;font-size:.88rem;line-height:1.55}
+.hero-orb{width:170px;height:170px;right:-40px;top:-48px;background:rgba(255,255,255,.09)}
+.quicktile{position:relative;min-height:145px;padding:15px 13px;border-radius:20px;box-shadow:0 8px 22px rgba(26,43,95,.05);transition:transform .15s,box-shadow .15s}.quicktile:active{transform:scale(.985)}.quicktile span{display:grid;place-items:center;width:42px;height:42px;margin-bottom:11px;border-radius:14px;background:#eaf0ff;font-size:1.25rem}.quicktile:nth-child(2) span{background:#fff0e3}.quicktile:nth-child(3) span{background:#f1eaff}.quicktile:nth-child(4) span{background:#e0f7ee}.quicktile small{line-height:1.4;margin-top:4px}
+.card{border-radius:20px}.grid{gap:11px}.big{font-size:1.8rem}
+.btn.p{background:linear-gradient(110deg,#4265f5,#8356f6);box-shadow:0 8px 18px rgba(70,87,230,.24)}
+.bn{box-shadow:0 -8px 24px rgba(24,35,75,.04)}nav.bn button{font-size:.7rem}nav.bn button b{font-size:1.3rem}
+.onboarding-wrap{max-width:540px}.onboarding-wrap>.card:first-child{border:0;border-radius:26px;padding:23px;background:radial-gradient(circle at 92% 2%,rgba(135,100,255,.55),transparent 35%),linear-gradient(145deg,#101b49,#2149b6 68%,#7954f6);color:white;box-shadow:0 16px 34px rgba(32,54,145,.2)}.onboarding-wrap>.card:first-child .logo,.onboarding-wrap>.card:first-child h2{color:white}.onboarding-wrap>.card:first-child .mu{color:#dbe4ff}.onboarding-wrap>.card:first-child .logo i{color:#a9c4ff;-webkit-text-fill-color:#a9c4ff;background:none}
+.onboarding-wrap>.card:first-child .note{color:#26304d;background:#fff3d8;border-left-color:#ffbf54}
+.chk{gap:10px}.chk input{accent-color:var(--blue)}
+@media(max-width:380px){#app{padding-left:13px;padding-right:13px}.hero{padding:19px 16px}.hero h1{font-size:1.5rem}.quicktile{min-height:138px;padding:12px}}
 </style></head><body><div id="app"></div>
 <script src="content/english-questions-01.js"></script>
 <script src="content/english-questions-02.js"></script>
@@ -234,7 +249,7 @@ function go(v){view=v;res=null;render();scrollTo(0,0)}
 /* ---------- VIEWS ---------- */
 function onboarding(){
  const subs=SUBJ.filter(s=>s!=="English Language");
- return `<div class="card" style="margin-top:12px"><div class="logo">JAMB <i>ACE</i> 🎓</div><p class="mu">Prepare Smarter. Practise Better. Score Higher.</p>
+ return `<div class="card" style="margin-top:12px"><div class="logo">JAMB <i>PREP APP</i> 🎓</div><p class="mu">Learn smarter. Score higher. Build your future.</p>
  <h2>Set up your profile</h2>
  <label for="on">Preferred name</label><input id="on" autocomplete="given-name">
  <label for="oc">Intended course (optional)</label><input id="oc" placeholder="e.g. Medicine">
@@ -258,7 +273,7 @@ function home(){
  const days=p.date?Math.ceil((new Date(p.date)-new Date(t))/864e5):null;
  const w=st.weak[0],done=S.tasks[t]||{};
  const qcount=Q.length,readCount=Object.keys(S.nr||{}).filter(k=>S.nr[k]).length;
- return `<div class="row sp"><div><div class="logo">JUMP <i>ACE</i> 🎓</div><div class="mu">Your all-in-one JAMB study companion</div></div><span class="tag">${navigator.onLine?"ONLINE":"OFFLINE"}</span></div>
+ return `<div class="row sp"><div><div class="logo">JAMB <i>PREP APP</i> 🎓</div><div class="mu">Your all-in-one JAMB study companion</div></div><span class="tag">${navigator.onLine?"ONLINE":"OFFLINE"}</span></div>
  <section class="hero"><div class="hero-orb"></div><div class="mu">WELCOME BACK</div><h1 style="margin-top:5px">Hello, ${esc(p.name)}! 👋</h1><p class="mu">Your JAMB journey starts here. Study. Practise. Improve.</p><div class="row sp" style="margin-top:16px"><div><div style="font-size:1.65rem;font-weight:900">${p.target}<span style="font-size:.85rem;font-weight:600">/400</span></div><div class="mu">Target score</div></div><button class="btn" onclick="go('practise')">Continue learning →</button></div></section>
  <div class="grid">
  <button class="quicktile" onclick="openLib('subj')"><span>📚</span>All subjects<small>Explore your study streams</small></button>
@@ -357,7 +372,7 @@ function render(){
  if(res){app.innerHTML=results();return}
  const V={home,practise,mock:mockPage,progress,profile,lib:library};
  const nav=[["home","🏠","Home"],["practise","✏️","Practise"],["mock","🖥️","Mock CBT"],["progress","📈","Progress"],["profile","👤","Profile"]];
- app.innerHTML=`<div class="row sp" style="margin-bottom:8px"><div class="logo">JAMB <i>ACE</i></div><span class="mu">${navigator.onLine?"Online":"Offline"}</span></div>${V[view]()}<nav class="bn" aria-label="Main">${nav.map(n=>`<button class="${view===n[0]?"on":""}" onclick="go('${n[0]}')"><b>${n[1]}</b>${n[2]}</button>`).join("")}</nav>`;
+ app.innerHTML=`<div class="row sp" style="margin-bottom:8px"><div class="logo">JAMB <i>PREP APP</i></div><span class="mu">${navigator.onLine?"Online":"Offline"}</span></div>${V[view]()}<nav class="bn" aria-label="Main">${nav.map(n=>`<button class="${view===n[0]?"on":""}" onclick="go('${n[0]}')"><b>${n[1]}</b>${n[2]}</button>`).join("")}</nav>`;
  if(view==="practise"){topics();fsearch()}
 }
 addEventListener("online",()=>{if(!S.act)render()});addEventListener("offline",()=>{if(!S.act)render()});
