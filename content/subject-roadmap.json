@@ -1,13 +1,13 @@
 {
   "title": "JAMB ACE syllabus and content roadmap",
-  "version": 1,
+  "version": 2,
   "subjects": [
     {
       "name": "English Language",
       "category": "Compulsory",
       "targetQuestions": 400,
       "plannedQuestionCount": 400,
-      "status": "first subject in progress",
+      "status": "400 original UTME-style practice questions and topic notes added; official past-question archive not populated",
       "topics": [
         "Comprehension",
         "Cloze tests",
@@ -38,7 +38,7 @@
       "category": "Science/General",
       "targetQuestions": 400,
       "plannedQuestionCount": 400,
-      "status": "planned",
+      "status": "400 original UTME-style practice questions and 20 topic notes added; official past-question archive not populated",
       "topics": [
         "Number bases",
         "Fractions, decimals and percentages",
