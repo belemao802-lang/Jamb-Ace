@@ -256,7 +256,7 @@ var topics=[
 ]]
 ];
 var out=[];
-topics.forEach(function(group){
+topics.filter(function(group){ return group[0] !== "Life cycles and development"; }).forEach(function(group){
  var topic=group[0];
  group[1].forEach(function(row,i){
   var q1=row[0],q2=row[1],answer=row[2],wrong=[row[3],row[4],row[5]],exp=row[6];
