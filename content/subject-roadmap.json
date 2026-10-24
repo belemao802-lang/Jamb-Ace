@@ -1,6 +1,6 @@
 {
   "title": "JAMB ACE syllabus and content roadmap",
-  "version": 4,
+  "version": 5,
   "subjects": [
     {
       "name": "English Language",
@@ -126,7 +126,7 @@
       "category": "Science",
       "targetQuestions": 400,
       "plannedQuestionCount": 400,
-      "status": "planned",
+      "status": "400 original UTME-style practice questions across 20 topics and 20 offline note sections added; official past-question archive not populated",
       "topics": [
         "Measurements and units",
         "Scalars and vectors",
