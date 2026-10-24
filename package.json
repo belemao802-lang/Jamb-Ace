@@ -1,8 +1,8 @@
 {
-  "name": "jamb-ace",
+  "name": "jamb-prep-app",
   "version": "1.0.0",
   "private": true,
-  "description": "JAMB ACE offline-first study app",
+  "description": "JAMB PREP APP offline-first study app",
   "scripts": {
     "build:android": "npx cap sync android && cd android && ./gradlew assembleDebug"
   },
