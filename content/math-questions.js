@@ -13,7 +13,7 @@
     var a=i+2,b=(i%7)+2;
     switch(i%4){
       case 0:num("Number bases","Convert "+(a*3+1)+" from base ten to base two.",(a*3+1).toString(2),[(a*3).toString(2),(a*3+2).toString(2),(a*2+1).toString(2)],"Repeated division by 2 gives the binary digits from last remainder to first.",i);break;
-      case 1:num("Number bases","Evaluate ("+a+" + "+b+") in base ten, then express the result in base "+(b+2)+".",(a+b).toString(b+2),[(a+b+1).toString(b+2),(a+b-1).toString(b+2),(a+b+2).toString(b+2)],"Convert to base ten first, then divide repeatedly by the target base.",i);break;
+      case 1:num("Number bases","Express "+(a+b)+" (base ten) in base "+(b+2)+".",(a+b).toString(b+2),[(a+b+1).toString(b+2),(a+b-1).toString(b+2),(a+b+2).toString(b+2)],"Convert to base ten first, then divide repeatedly by the target base.",i);break;
       case 2:num("Number bases","What is "+(a+3)+" in base ten written in base eight?",(a+3).toString(8),[(a+4).toString(8),(a+2).toString(8),(a+5).toString(8)],"Divide by 8 and read the quotient and remainder in reverse order.",i);break;
       default:num("Number bases","Convert "+(a+5)+" from base ten to base three.",(a+5).toString(3),[(a+6).toString(3),(a+4).toString(3),(a+7).toString(3)],"Use successive division by 3.",i);
     }
