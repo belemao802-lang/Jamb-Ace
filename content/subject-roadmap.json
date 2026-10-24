@@ -1,6 +1,6 @@
 {
   "title": "JAMB ACE syllabus and content roadmap",
-  "version": 3,
+  "version": 4,
   "subjects": [
     {
       "name": "English Language",
@@ -97,7 +97,7 @@
       "category": "Science",
       "targetQuestions": 400,
       "plannedQuestionCount": 400,
-      "status": "planned",
+      "status": "400 original UTME-style practice questions across 20 topic areas and 20 topic notes added; official past-question archive not populated",
       "topics": [
         "Separation of mixtures",
         "Particles and atomic structure",
